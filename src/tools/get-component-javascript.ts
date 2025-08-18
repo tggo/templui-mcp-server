@@ -45,7 +45,7 @@ export async function handleGetComponentJavaScript({ componentName }: { componen
       content: [{ type: "text", text: jsCode }]
     };
   } catch (error) {
-    logError(`Failed to get JavaScript for component "${componentName}"`, error);
+    logError(`Failed to get JavaScript for component "${componentName}"`, error as Error);
     throw new Error(`Failed to get JavaScript for component "${componentName}": ${error instanceof Error ? error.message : String(error)}`);
   }
 }

@@ -91,7 +91,7 @@ export async function handleGetComponentMetadata({ componentName }: { componentN
       }]
     };
   } catch (error) {
-    logError(`Failed to get metadata for component "${componentName}"`, error);
+    logError(`Failed to get metadata for component "${componentName}"`, error as Error);
     throw new Error(`Failed to get metadata for component "${componentName}": ${error instanceof Error ? error.message : String(error)}`);
   }
 }

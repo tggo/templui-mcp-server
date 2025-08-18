@@ -47,7 +47,7 @@ export async function handleGetComponentDemo({ componentName }: { componentName:
       }]
     };
   } catch (error) {
-    logError(`Failed to get demo for component "${componentName}"`, error);
+    logError(`Failed to get demo for component "${componentName}"`, error as Error);
     throw new Error(`Failed to get demo for component "${componentName}": ${error instanceof Error ? error.message : String(error)}`);
   }
 }

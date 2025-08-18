@@ -42,7 +42,7 @@ export async function handleListComponents({ category }: { category?: string } =
       content: [{ type: "text", text: formattedList }]
     };
   } catch (error) {
-    logError(`Failed to list components`, error);
+    logError(`Failed to list components`, error as Error);
     throw new Error(`Failed to list components: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
@@ -71,10 +71,10 @@ function formatComponentsList(components: any[], category?: string): string {
     }, {} as Record<string, any[]>);
 
     Object.entries(grouped).forEach(([cat, comps]) => {
-      sections.push(`## ${cat.charAt(0).toUpperCase() + cat.slice(1)} (${comps.length})`);
+      sections.push(`## ${cat.charAt(0).toUpperCase() + cat.slice(1)} (${(comps as any[]).length})`);
       sections.push('');
       
-      comps.forEach(component => {
+      (comps as any[]).forEach((component: any) => {
         sections.push(`### ${component.displayName}`);
         sections.push(`- **Name**: \`${component.name}\``);
         sections.push(`- **Description**: ${component.description}`);

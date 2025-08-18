@@ -46,7 +46,7 @@ export async function start() {
     logInfo(`Cache initialized - Memory: ${cacheStats.memoryEntries}, Disk: ${cacheStats.diskEntries}, Size: ${(cacheStats.totalSize / 1024).toFixed(1)}KB`);
 
     // Create and configure server
-    const version = await readVersion("1.0.0");
+    const version = await readVersion("1.0.1");
     const server = createServer(version);
     
     setupHandlers(server);
@@ -75,7 +75,7 @@ export async function start() {
     if (error instanceof Error) {
       if (error.message.includes('ENOENT') && error.message.includes('templui-site-doc')) {
         logError("Documentation directory not found. Please ensure samples/templui-site-doc exists.");
-        logInfo("You can clone documentation from: https://github.com/yourusername/templui-mcp-server");
+        logInfo("You can clone documentation from: https://github.com/tggo/templui-mcp-server");
       }
       
       if (error.message.includes('rate limit')) {

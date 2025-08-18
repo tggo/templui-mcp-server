@@ -29,7 +29,7 @@ async function handleRequest<T>(
     logDebug(`Request completed successfully: ${method}`);
     return result;
   } catch (error) {
-    logError(`Error in ${method}`, error);
+    logError(`Error in ${method}`, error as Error);
     
     // Convert to MCP error if needed
     if (error instanceof McpError) {
@@ -90,7 +90,7 @@ export const setupHandlers = (server: Server): void => {
           throw new McpError(ErrorCode.MethodNotFound, `Tool not found: ${name}`);
         }
 
-        logInfo(`Executing tool: ${name}`, { params });
+        logInfo(`Executing tool: ${name}`);
         
         // Execute handler
         const result = await handler(params || {});
@@ -106,10 +106,7 @@ export const setupHandlers = (server: Server): void => {
     logError('MCP server error', error);
   };
 
-  // Connection handler
-  server.onnotification = (notificationType, params) => {
-    logDebug(`Received notification: ${notificationType}`, params);
-  };
+  // Remove onnotification as it doesn't exist in the SDK
 
   logInfo('TemplUI MCP server handlers setup complete');
 };

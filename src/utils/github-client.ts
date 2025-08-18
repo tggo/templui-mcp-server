@@ -42,7 +42,7 @@ export class GitHubClient {
     constructor(apiKey?: string) {
         this.apiKey = apiKey;
         if (apiKey) {
-            githubApi.defaults.headers["Authorization"] = `Bearer ${apiKey}`;
+            (githubApi.defaults.headers as any)["Authorization"] = `Bearer ${apiKey}`;
             logInfo("GitHub API configured with token");
         } else {
             logWarning("No GitHub API key provided. Rate limited to 60 requests/hour.");

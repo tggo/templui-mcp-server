@@ -30,7 +30,7 @@ Examples:
   templui-mcp --github-api-key ghp_xxxxxxxxxxxx
   templui-mcp --use-cached-docs --log-level debug
 
-For more information, visit: https://github.com/yourusername/templui-mcp-server
+For more information, visit: https://github.com/tggo/templui-mcp-server
 `);
 }
 

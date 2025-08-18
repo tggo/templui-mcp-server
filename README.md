@@ -236,7 +236,7 @@ templui-mcp-server/
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/templui-mcp-server.git
+git clone https://github.com/tggo/templui-mcp-server.git
 cd templui-mcp-server
 
 # Install dependencies
@@ -349,5 +349,5 @@ MIT License - see [LICENSE](LICENSE) for details.
 - [TemplUI Documentation](https://templui.io)
 - [Go Templ Guide](https://templ.guide)
 - [Model Context Protocol](https://modelcontextprotocol.io)
-- [GitHub Repository](https://github.com/yourusername/templui-mcp-server)
-- [Issues & Support](https://github.com/yourusername/templui-mcp-server/issues)
+- [GitHub Repository](https://github.com/tggo/templui-mcp-server)
+- [Issues & Support](https://github.com/tggo/templui-mcp-server/issues)

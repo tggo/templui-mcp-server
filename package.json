@@ -1,6 +1,6 @@
 {
   "name": "templui-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Model Context Protocol (MCP) server for TemplUI components, providing AI assistants with access to component source code, documentation, demos, and metadata.",
   "type": "module",
   "main": "./build/index.js",
@@ -36,10 +36,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/templui-mcp-server.git"
+    "url": "git+https://github.com/tggo/templui-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/templui-mcp-server/issues"
+    "url": "https://github.com/tggo/templui-mcp-server/issues"
   },
   "engines": {
     "node": ">=18.0.0"

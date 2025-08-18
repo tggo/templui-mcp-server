@@ -40,7 +40,7 @@ export async function handleGetComponentDocs({ componentName }: { componentName:
       content: [{ type: "text", text: formattedDocs }]
     };
   } catch (error) {
-    logError(`Failed to get documentation for component "${componentName}"`, error);
+    logError(`Failed to get documentation for component "${componentName}"`, error as Error);
     throw new Error(`Failed to get documentation for component "${componentName}": ${error instanceof Error ? error.message : String(error)}`);
   }
 }
