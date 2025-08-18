@@ -12,7 +12,7 @@ function showHelp(): void {
 TemplUI MCP Server - Model Context Protocol server for TemplUI components
 
 Usage:
-  templui-mcp [options]
+  templui-mcp-server [options]
 
 Options:
   --github-api-key <token>    GitHub personal access token for higher rate limits
@@ -26,9 +26,9 @@ Environment Variables:
   LOG_LEVEL                    Log level [default: info]
 
 Examples:
-  templui-mcp
-  templui-mcp --github-api-key ghp_xxxxxxxxxxxx
-  templui-mcp --use-cached-docs --log-level debug
+  templui-mcp-server
+  templui-mcp-server --github-api-key ghp_xxxxxxxxxxxx
+  templui-mcp-server --use-cached-docs --log-level debug
 
 For more information, visit: https://github.com/tggo/templui-mcp-server
 `);

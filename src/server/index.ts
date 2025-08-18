@@ -3,11 +3,17 @@ import { setupHandlers } from "./handler.js";
 import { createServer } from "./createServer.js";
 import { readVersion } from "./version.js";
 import { parseArgs } from "../cli/args.js";
-import { setLogLevel, logError, logInfo, logWarning } from "../utils/logger.js";
+import { setLogLevel, logError, logInfo, logWarning, logDebug } from "../utils/logger.js";
 import { GitHubClient } from "../utils/github-client.js";
 import { DocumentationParser } from "../utils/documentation.js";
 import { initializeTools } from "../tools/index.js";
 import { cache } from "../utils/cache.js";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export async function start() {
   try {
@@ -32,7 +38,32 @@ export async function start() {
     }
 
     // Initialize documentation parser
-    const docsPath = process.env.TEMPLUI_DOCS_PATH || './samples/templui-site-doc';
+    // Try multiple possible paths for documentation
+    let docsPath = process.env.TEMPLUI_DOCS_PATH;
+    
+    if (!docsPath) {
+      // Try different paths based on where we're running from
+      const possiblePaths = [
+        path.join(__dirname, '../../samples/templui-site-doc'), // In build/server, go up to project root
+        path.join(__dirname, '../samples/templui-site-doc'),    // In build, go to samples
+        './samples/templui-site-doc',                           // Relative path
+        path.join(process.cwd(), 'samples/templui-site-doc')    // From current working directory
+      ];
+      
+      for (const testPath of possiblePaths) {
+        if (fs.existsSync(testPath)) {
+          docsPath = testPath;
+          break;
+        }
+        logDebug(`Documentation path not found: ${testPath}`);
+      }
+    }
+    
+    if (!docsPath) {
+      docsPath = './samples/templui-site-doc'; // Fallback
+      logWarning(`No documentation directory found, using fallback: ${docsPath}`);
+    }
+    
     const documentationParser = new DocumentationParser(docsPath);
     logInfo(`Documentation parser initialized with path: ${docsPath}`);
 
@@ -46,7 +77,7 @@ export async function start() {
     logInfo(`Cache initialized - Memory: ${cacheStats.memoryEntries}, Disk: ${cacheStats.diskEntries}, Size: ${(cacheStats.totalSize / 1024).toFixed(1)}KB`);
 
     // Create and configure server
-    const version = await readVersion("1.0.1");
+    const version = await readVersion("1.0.5");
     const server = createServer(version);
     
     setupHandlers(server);

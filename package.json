@@ -1,14 +1,15 @@
 {
   "name": "templui-mcp-server",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "A Model Context Protocol (MCP) server for TemplUI components, providing AI assistants with access to component source code, documentation, demos, and metadata.",
   "type": "module",
   "main": "./build/index.js",
   "bin": {
-    "templui-mcp": "./build/index.js"
+    "templui-mcp-server": "./build/index.js"
   },
   "files": [
     "build/**/*",
+    "samples/templui-site-doc/**/*",
     "README.md",
     "LICENSE"
   ],
