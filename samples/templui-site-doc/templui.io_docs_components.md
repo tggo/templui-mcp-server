@@ -1,0 +1,12 @@
+---
+url: "https://templui.io/docs/components"
+title: "Components - templUI"
+---
+
+[✨ templUI Pro is live](https://pro.templui.io/)
+
+# Components
+
+Browse all available UI components in the templUI library. Beautiful, accessible components for Go templ.
+
+[Accordion](https://templui.io/docs/components/accordion) [Alert](https://templui.io/docs/components/alert) [Aspect Ratio](https://templui.io/docs/components/aspect-ratio) [Avatar](https://templui.io/docs/components/avatar) [Badge](https://templui.io/docs/components/badge) [Breadcrumb](https://templui.io/docs/components/breadcrumb) [Button](https://templui.io/docs/components/button) [Calendar](https://templui.io/docs/components/calendar) [Card](https://templui.io/docs/components/card) [Carousel](https://templui.io/docs/components/carousel) [Charts](https://templui.io/docs/components/charts) [Checkbox](https://templui.io/docs/components/checkbox) [Checkbox Card](https://templui.io/docs/components/checkbox-card) [Code](https://templui.io/docs/components/code) [Date Picker](https://templui.io/docs/components/date-picker) [Drawer](https://templui.io/docs/components/drawer) [Dropdown](https://templui.io/docs/components/dropdown) [Form](https://templui.io/docs/components/form) [Icon](https://templui.io/docs/components/icon) [Input](https://templui.io/docs/components/input) [Input OTP](https://templui.io/docs/components/input-otp) [Label](https://templui.io/docs/components/label) [Modal](https://templui.io/docs/components/modal) [Pagination](https://templui.io/docs/components/pagination) [Popover](https://templui.io/docs/components/popover) [Progress](https://templui.io/docs/components/progress) [Radio](https://templui.io/docs/components/radio) [Radio Card](https://templui.io/docs/components/radio-card) [Rating](https://templui.io/docs/components/rating) [Select Box](https://templui.io/docs/components/select-box) [Separator](https://templui.io/docs/components/separator) [Skeleton](https://templui.io/docs/components/skeleton) [Slider](https://templui.io/docs/components/slider) [Table](https://templui.io/docs/components/table) [Tabs](https://templui.io/docs/components/tabs) [Tags Input](https://templui.io/docs/components/tags-input) [Textarea](https://templui.io/docs/components/textarea) [Time Picker](https://templui.io/docs/components/time-picker) [Toast](https://templui.io/docs/components/toast) [Toggle](https://templui.io/docs/components/toggle) [Tooltip](https://templui.io/docs/components/tooltip)
