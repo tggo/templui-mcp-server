@@ -3,7 +3,9 @@ import { handleGetComponentDemo, setGitHubClient as setGitHubClientDemo } from '
 import { handleGetComponentDocs, setDocumentationParser as setDocumentationParserDocs } from './get-component-docs.js';
 import { handleGetComponentJavaScript, setGitHubClient as setGitHubClientJS } from './get-component-javascript.js';
 import { handleGetComponentMetadata, setDocumentationParser as setDocumentationParserMeta } from './get-component-metadata.js';
-import { handleListComponents } from './list-components.js';
+import { handleListComponents, initializeGitHubIntegration } from './list-components.js';
+import { handleCheckUpdates, initializeUpdater as initializeUpdaterCheck } from './check-updates.js';
+import { handleRefreshCache, initializeUpdater as initializeUpdaterCache } from './refresh-cache.js';
 
 import { schema as getComponentSchema } from './get-component.js';
 import { schema as getComponentDemoSchema } from './get-component-demo.js';
@@ -11,9 +13,12 @@ import { schema as getComponentDocsSchema } from './get-component-docs.js';
 import { schema as getComponentJavaScriptSchema } from './get-component-javascript.js';
 import { schema as getComponentMetadataSchema } from './get-component-metadata.js';
 import { schema as listComponentsSchema } from './list-components.js';
+import { schema as checkUpdatesSchema } from './check-updates.js';
+import { schema as refreshCacheSchema } from './refresh-cache.js';
 
 import { GitHubClient } from '../utils/github-client.js';
 import { DocumentationParser } from '../utils/documentation.js';
+import { Updater } from '../utils/updater.js';
 
 // Tool handlers
 export const toolHandlers = {
@@ -22,7 +27,9 @@ export const toolHandlers = {
   get_component_docs: handleGetComponentDocs,
   get_component_javascript: handleGetComponentJavaScript,
   get_component_metadata: handleGetComponentMetadata,
-  list_components: handleListComponents
+  list_components: handleListComponents,
+  check_updates: handleCheckUpdates,
+  refresh_cache: handleRefreshCache
 };
 
 // Tool schemas
@@ -32,7 +39,9 @@ export const toolSchemas = {
   get_component_docs: getComponentDocsSchema,
   get_component_javascript: getComponentJavaScriptSchema,
   get_component_metadata: getComponentMetadataSchema,
-  list_components: listComponentsSchema
+  list_components: listComponentsSchema,
+  check_updates: checkUpdatesSchema,
+  refresh_cache: refreshCacheSchema
 };
 
 // Tool definitions for MCP
@@ -89,6 +98,22 @@ export const tools = {
       type: 'object',
       properties: listComponentsSchema
     }
+  },
+  'check_updates': {
+    name: 'check_updates',
+    description: 'Check for updates in the TemplUI repository and show current status',
+    inputSchema: {
+      type: 'object',
+      properties: checkUpdatesSchema
+    }
+  },
+  'refresh_cache': {
+    name: 'refresh_cache',
+    description: 'Clear cached data and force fresh retrieval from sources',
+    inputSchema: {
+      type: 'object',
+      properties: refreshCacheSchema
+    }
   }
 };
 
@@ -104,4 +129,14 @@ export function initializeTools(githubClient: GitHubClient, documentationParser:
   // Set dependencies for documentation-based tools
   setDocumentationParserDocs(documentationParser);
   setDocumentationParserMeta(documentationParser);
+
+  // Initialize updater for new tools
+  const updater = new Updater(githubClient);
+  
+  // Set dependencies for list components with GitHub integration
+  initializeGitHubIntegration(githubClient, updater);
+  
+  // Set dependencies for new tools
+  initializeUpdaterCheck(updater);
+  initializeUpdaterCache(updater);
 }

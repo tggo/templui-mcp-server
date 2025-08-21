@@ -37,6 +37,26 @@ export async function start() {
       logInfo("For higher rate limits, set GITHUB_PERSONAL_ACCESS_TOKEN or use --github-api-key");
     }
 
+    // Handle CLI arguments for updates and cache management
+    if (args.clearCache) {
+      logInfo('Clearing cache before startup...');
+      await cache.clear();
+      logInfo('Cache cleared successfully');
+    }
+
+    if (args.checkUpdates) {
+      logInfo('Checking for updates...');
+      // Quick update check and exit
+      const { Updater } = await import('../utils/updater.js');
+      const updater = new Updater(githubClient);
+      const updateResult = await updater.checkForUpdates();
+      console.log(updateResult.message);
+      if (updateResult.hasUpdates) {
+        console.log('\nRun with --clear-cache to refresh component data with latest changes.');
+      }
+      process.exit(0);
+    }
+
     // Initialize documentation parser
     // Try multiple possible paths for documentation
     let docsPath = process.env.TEMPLUI_DOCS_PATH;
@@ -77,7 +97,7 @@ export async function start() {
     logInfo(`Cache initialized - Memory: ${cacheStats.memoryEntries}, Disk: ${cacheStats.diskEntries}, Size: ${(cacheStats.totalSize / 1024).toFixed(1)}KB`);
 
     // Create and configure server
-    const version = await readVersion("1.0.5");
+    const version = await readVersion("1.1.0");
     const server = createServer(version);
     
     setupHandlers(server);
@@ -90,6 +110,23 @@ export async function start() {
     logInfo(`TemplUI MCP Server v${version} started successfully`);
     logInfo("Server is ready to handle requests from MCP clients");
     
+    // Perform startup update check and warning (non-blocking)
+    try {
+      const { Updater } = await import('../utils/updater.js');
+      const updater = new Updater(githubClient);
+      const updateResult = await updater.checkForUpdates();
+      
+      if (updateResult.hasUpdates) {
+        logWarning('TemplUI repository has updates available!');
+        logWarning('Component data may be outdated. Consider running with --clear-cache to refresh.');
+        logInfo(`Current: ${updateResult.currentCommit?.slice(0, 7)}, Latest: ${updateResult.latestCommit?.slice(0, 7)}`);
+      } else {
+        logInfo('TemplUI repository is up to date');
+      }
+    } catch (error) {
+      logDebug('Startup update check failed, continuing normally', error as Error);
+    }
+
     // Log usage instructions
     logInfo("Available tools:");
     logInfo("  - get_component: Get component source code");
@@ -98,6 +135,8 @@ export async function start() {
     logInfo("  - get_component_javascript: Get component JavaScript");
     logInfo("  - get_component_metadata: Get component metadata");
     logInfo("  - list_components: List all components");
+    logInfo("  - check_updates: Check for repository updates");
+    logInfo("  - refresh_cache: Clear cached data");
 
   } catch (error) {
     logError("Failed to start TemplUI MCP server", error as Error);

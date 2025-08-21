@@ -5,6 +5,9 @@ interface ParsedArgs {
   useCachedDocs?: boolean;
   logLevel?: string;
   help?: boolean;
+  updateDocs?: boolean;
+  clearCache?: boolean;
+  checkUpdates?: boolean;
 }
 
 function showHelp(): void {
@@ -18,6 +21,9 @@ Options:
   --github-api-key <token>    GitHub personal access token for higher rate limits
   --use-cached-docs          Use cached documentation instead of fetching from GitHub
   --log-level <level>        Set log level (error, warn, info, debug) [default: info]
+  --update-docs              Update documentation from templui.io (experimental)
+  --clear-cache              Clear all cached data before starting
+  --check-updates            Check for TemplUI repository updates and exit
   --help                     Show this help message
 
 Environment Variables:
@@ -29,6 +35,7 @@ Examples:
   templui-mcp-server
   templui-mcp-server --github-api-key ghp_xxxxxxxxxxxx
   templui-mcp-server --use-cached-docs --log-level debug
+  templui-mcp-server --clear-cache --check-updates
 
 For more information, visit: https://github.com/tggo/templui-mcp-server
 `);
@@ -71,6 +78,21 @@ export function parseArgs(): ParsedArgs {
           logError('--log-level requires a value', new Error('Missing log level'));
           process.exit(1);
         }
+        break;
+        
+      case '--update-docs':
+        result.updateDocs = true;
+        logInfo('Documentation update requested');
+        break;
+        
+      case '--clear-cache':
+        result.clearCache = true;
+        logInfo('Cache clear requested');
+        break;
+        
+      case '--check-updates':
+        result.checkUpdates = true;
+        logInfo('Update check requested');
         break;
         
       case '--help':

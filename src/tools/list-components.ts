@@ -1,13 +1,23 @@
 import { TEMPLUI_COMPONENTS, getComponentsByCategory } from '../data/components-list.js';
 import { cache } from '../utils/cache.js';
-import { logError, logInfo } from '../utils/logger.js';
+import { logError, logInfo, logDebug } from '../utils/logger.js';
 
-export async function handleListComponents({ category }: { category?: string } = {}) {
+// Dynamic imports for GitHub integration
+let githubClient: any = null;
+let updater: any = null;
+
+// Initialize GitHub integration
+export function initializeGitHubIntegration(client: any, updateService: any) {
+  githubClient = client;
+  updater = updateService;
+}
+
+export async function handleListComponents({ category, useDynamic }: { category?: string, useDynamic?: boolean } = {}) {
   try {
-    logInfo(`Listing components${category ? ` in category: ${category}` : ''}`);
+    logInfo(`Listing components${category ? ` in category: ${category}` : ''}${useDynamic ? ' (dynamic mode)' : ''}`);
 
     // Create cache key
-    const cacheKey = `list-components:${category || 'all'}`;
+    const cacheKey = `list-components:${category || 'all'}${useDynamic ? ':dynamic' : ''}`;
     const cached = await cache.get<string>(cacheKey);
     if (cached) {
       logInfo(`Returning cached component list`);
@@ -16,10 +26,41 @@ export async function handleListComponents({ category }: { category?: string } =
       };
     }
 
-    // Filter components by category if specified
-    const components = category 
-      ? getComponentsByCategory(category)
-      : TEMPLUI_COMPONENTS;
+    let components: any[];
+    let isDynamicData = false;
+
+    // Try to use dynamic GitHub data if available and requested
+    if (useDynamic && githubClient) {
+      try {
+        logDebug('Attempting to fetch components dynamically from GitHub');
+        const dynamicComponents = await githubClient.getComponentsFromRepository();
+        
+        // Convert GitHub data to component format
+        components = dynamicComponents.map((comp: any) => ({
+          name: comp.name,
+          displayName: comp.name.charAt(0).toUpperCase() + comp.name.slice(1),
+          description: `Component dynamically discovered from TemplUI repository`,
+          category: 'dynamic',
+          hasJavaScript: false, // Will be determined when component is accessed
+          installCommand: `Add ${comp.name} component to your project`
+        }));
+
+        // Filter by category if specified (though dynamic components don't have categories yet)
+        if (category && category !== 'dynamic') {
+          components = [];
+        }
+        
+        isDynamicData = true;
+        logInfo(`Successfully fetched ${components.length} components dynamically from GitHub`);
+      } catch (error) {
+        logDebug(`Dynamic fetch failed, falling back to static data: ${error instanceof Error ? error.message : String(error)}`);
+        // Fall back to static data
+        components = category ? getComponentsByCategory(category) : TEMPLUI_COMPONENTS;
+      }
+    } else {
+      // Use static component data
+      components = category ? getComponentsByCategory(category) : TEMPLUI_COMPONENTS;
+    }
 
     if (components.length === 0) {
       const message = category 
@@ -32,10 +73,11 @@ export async function handleListComponents({ category }: { category?: string } =
     }
 
     // Format the components list
-    const formattedList = formatComponentsList(components, category);
+    const formattedList = formatComponentsList(components, category, isDynamicData);
     
-    // Cache the result
-    await cache.set(cacheKey, formattedList);
+    // Cache the result with shorter TTL for dynamic data
+    const cacheTTL = isDynamicData ? 1800 : undefined; // 30 minutes for dynamic data
+    await cache.set(cacheKey, formattedList, cacheTTL);
     
     logInfo(`Successfully listed ${components.length} components`);
     return {
@@ -47,7 +89,7 @@ export async function handleListComponents({ category }: { category?: string } =
   }
 }
 
-function formatComponentsList(components: any[], category?: string): string {
+function formatComponentsList(components: any[], category?: string, isDynamic?: boolean): string {
   const sections: string[] = [];
 
   // Header
@@ -56,6 +98,11 @@ function formatComponentsList(components: any[], category?: string): string {
   } else {
     sections.push('# TemplUI Components');
   }
+  
+  if (isDynamic) {
+    sections.push('*Dynamically discovered from GitHub repository*');
+  }
+  
   sections.push('');
   sections.push(`Found ${components.length} component${components.length === 1 ? '' : 's'}`);
   sections.push('');
@@ -128,7 +175,12 @@ function formatComponentsList(components: any[], category?: string): string {
 export const schema = {
   category: {
     type: 'string',
-    description: 'Optional category to filter components (form, layout, navigation, overlay, feedback, display)',
-    enum: ['form', 'layout', 'navigation', 'overlay', 'feedback', 'display']
+    description: 'Optional category to filter components (form, layout, navigation, overlay, feedback, display, dynamic)',
+    enum: ['form', 'layout', 'navigation', 'overlay', 'feedback', 'display', 'dynamic']
+  },
+  useDynamic: {
+    type: 'boolean',
+    description: 'Use dynamic component discovery from GitHub repository (may be slower but always up-to-date)',
+    default: false
   }
 };

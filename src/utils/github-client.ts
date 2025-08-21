@@ -152,6 +152,57 @@ export class GitHubClient {
     }
 
     /**
+     * Get latest commit information from the main branch
+     */
+    async getLatestCommit(): Promise<{ sha: string; date: string; message: string }> {
+        try {
+            logDebug('Fetching latest commit from main branch');
+            const response = await githubApi.get(`/repos/${REPO_OWNER}/${REPO_NAME}/commits/${REPO_BRANCH}`);
+            
+            if (!response.data || !response.data.sha) {
+                throw new Error('Invalid commit response from GitHub API');
+            }
+            
+            return {
+                sha: response.data.sha,
+                date: response.data.commit.committer.date,
+                message: response.data.commit.message
+            };
+        } catch (error) {
+            logError('Failed to fetch latest commit', error as Error);
+            throw new Error(`Failed to get latest commit: ${error instanceof Error ? error.message : String(error)}`);
+        }
+    }
+
+    /**
+     * Get components list from repository for dynamic discovery
+     */
+    async getComponentsFromRepository(): Promise<Array<{ name: string; path: string; type: string }>> {
+        try {
+            logDebug('Fetching components from repository for dynamic discovery');
+            const response = await githubApi.get(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${COMPONENTS_PATH}`);
+            
+            if (!response.data || !Array.isArray(response.data)) {
+                throw new Error('Invalid response from GitHub API');
+            }
+            
+            const components = response.data
+                .filter((item: any) => item.type === 'dir')
+                .map((item: any) => ({
+                    name: item.name,
+                    path: item.path,
+                    type: 'component'
+                }));
+                
+            logInfo(`Discovered ${components.length} components dynamically from repository`);
+            return components;
+        } catch (error) {
+            logError('Failed to get components from repository', error as Error);
+            throw new Error(`Failed to discover components: ${error instanceof Error ? error.message : String(error)}`);
+        }
+    }
+
+    /**
      * Get the directory structure of the repository
      */
     async getDirectoryStructure(path: string = COMPONENTS_PATH): Promise<any> {

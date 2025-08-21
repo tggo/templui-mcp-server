@@ -21,6 +21,17 @@ export class Cache {
   }
 
   /**
+   * Set reduced TTL for dynamic data
+   */
+  setReducedTTL(key: string): number {
+    // Use shorter TTL for dynamic/live data that should be refreshed more frequently
+    if (key.includes('dynamic') || key.includes('list-components') || key.includes('repository-info')) {
+      return 15 * 60 * 1000; // 15 minutes for dynamic data
+    }
+    return this.defaultTTL; // 30 minutes for regular data
+  }
+
+  /**
    * Get cached data
    */
   async get<T>(key: string): Promise<T | null> {
@@ -63,7 +74,9 @@ export class Cache {
    */
   async set<T>(key: string, data: T, ttl?: number): Promise<void> {
     try {
-      const expiresAt = Date.now() + (ttl || this.defaultTTL);
+      // Use reduced TTL for dynamic data if no explicit TTL provided
+      const effectiveTTL = ttl || this.setReducedTTL(key);
+      const expiresAt = Date.now() + effectiveTTL;
       const cacheEntry: CacheEntry<T> = {
         data,
         timestamp: Date.now(),
@@ -77,7 +90,8 @@ export class Cache {
       const filePath = this.getFilePath(key);
       fs.writeFileSync(filePath, JSON.stringify(cacheEntry), 'utf-8');
       
-      logDebug(`Cache set: ${key} (expires: ${new Date(expiresAt).toISOString()})`);
+      const ttlMinutes = Math.round(effectiveTTL / 60000);
+      logDebug(`Cache set: ${key} (expires in ${ttlMinutes}min: ${new Date(expiresAt).toISOString()})`);
     } catch (error) {
       logError(`Cache set error for key ${key}`, error as Error);
     }
