@@ -19,7 +19,10 @@
     "prepublishOnly": "npm run clean && npm run build && chmod +x build/index.js",
     "start": "node build/index.js",
     "dev": "tsc && node build/index.js",
-    "test": "echo \"Test script not implemented yet\""
+    "test": "echo \"Test script not implemented yet\"",
+    "update:components": "node scripts/update-components.js",
+    "update:components:dry-run": "node scripts/update-components.js --dry-run",
+    "update:components:no-publish": "node scripts/update-components.js --skip-npm"
   },
   "keywords": [
     "mcp",

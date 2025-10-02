@@ -250,6 +250,29 @@ npm run build
 npm run dev
 ```
 
+### Updating Components
+
+To sync with the latest TemplUI components:
+
+```bash
+# Automated update (recommended)
+npm run update:components
+
+# Dry run to see changes
+npm run update:components:dry-run
+
+# Update without publishing to npm
+npm run update:components:no-publish
+```
+
+The update script will:
+- Discover new components from TemplUI repository
+- Update static component list
+- Bump version number
+- Update documentation
+- Commit, tag, and push to GitHub
+- Publish to npm (if logged in)
+
 ### Adding Documentation
 
 Place TemplUI documentation files in `samples/templui-site-doc/`:
