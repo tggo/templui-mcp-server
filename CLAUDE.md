@@ -327,17 +327,17 @@ LOG_LEVEL                    # Logging level [info]
 
 ## Component Data
 
-### Supported Components (40+)
+### Supported Components (42)
 **Categories:**
-- **Form**: button, input, textarea, checkbox, radio, selectbox, datepicker, timepicker, inputotp, tagsinput, form, label, toggle, rating, slider
-- **Layout**: card, separator, aspectratio, accordion, table
+- **Form**: button, input, textarea, checkbox, radio, selectbox, datepicker, timepicker, inputotp, tagsinput, form, label, switch, rating, slider
+- **Layout**: card, separator, aspectratio, accordion, table, collapsible, sheet, sidebar
 - **Navigation**: breadcrumb, pagination, tabs
-- **Overlay**: modal, drawer, dropdown, popover, tooltip
-- **Feedback**: alert, toast, progress, skeleton
+- **Overlay**: dialog, dropdown, popover, tooltip
+- **Feedback**: alert, toast, progress, skeleton, copybutton
 - **Display**: avatar, badge, icon, code, chart, carousel
 
 **JavaScript-enabled Components:**
-Components with client-side functionality include: avatar, calendar, carousel, chart, code, datepicker, drawer, dropdown, input, inputotp, label, modal, popover, progress, rating, selectbox, slider, tabs, tagsinput, textarea, timepicker, toast
+Components with client-side functionality include: avatar, calendar, carousel, chart, code, collapsible, copybutton, datepicker, dialog, dropdown, input, inputotp, label, popover, progress, rating, selectbox, sheet, sidebar, slider, switch, tabs, tagsinput, textarea, timepicker, toast
 
 ## Build & Deployment
 

@@ -45,24 +45,25 @@ npx templui-mcp-server --use-cached-docs
 
 ## 🎨 Supported Components
 
-TemplUI provides 40+ components across multiple categories:
+TemplUI provides 42 components across multiple categories:
 
 ### Form Components
 - Button, Input, Textarea, Checkbox, Radio, Select Box
 - Date Picker, Time Picker, Input OTP, Tags Input
-- Form, Label, Toggle, Rating, Slider
+- Form, Label, Switch, Rating, Slider
 
-### Layout Components  
+### Layout Components
 - Card, Separator, Aspect Ratio, Accordion, Table
+- Collapsible, Sheet, Sidebar
 
 ### Navigation Components
 - Breadcrumb, Pagination, Tabs
 
 ### Overlay Components
-- Modal, Drawer, Dropdown, Popover, Tooltip
+- Dialog, Dropdown, Popover, Tooltip
 
 ### Feedback Components
-- Alert, Toast, Progress, Skeleton
+- Alert, Toast, Progress, Skeleton, Copy Button
 
 ### Display Components
 - Avatar, Badge, Icon, Code, Chart, Carousel
@@ -160,7 +161,7 @@ use_tool("get_component", { "componentName": "button" })
 
 ```typescript
 // AI Assistant can request:
-use_tool("get_component_docs", { "componentName": "modal" })
+use_tool("get_component_docs", { "componentName": "dialog" })
 
 // Returns formatted documentation with installation and examples
 ```
@@ -256,7 +257,7 @@ Place TemplUI documentation files in `samples/templui-site-doc/`:
 ```
 samples/templui-site-doc/
 ├── templui.io_docs_components_button.md
-├── templui.io_docs_components_modal.md
+├── templui.io_docs_components_dialog.md
 └── ...
 ```
 

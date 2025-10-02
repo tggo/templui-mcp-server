@@ -112,12 +112,13 @@ export class Updater {
 
       // Also remove individual component caches
       const componentNames = [
-        'button', 'input', 'textarea', 'checkbox', 'radio', 'selectbox', 
-        'datepicker', 'timepicker', 'inputotp', 'tagsinput', 'form', 'label', 
-        'toggle', 'rating', 'slider', 'card', 'separator', 'aspectratio', 
-        'accordion', 'table', 'breadcrumb', 'pagination', 'tabs', 'modal', 
-        'drawer', 'dropdown', 'popover', 'tooltip', 'alert', 'toast', 
-        'progress', 'skeleton', 'avatar', 'badge', 'icon', 'code', 'chart', 'carousel'
+        'button', 'input', 'textarea', 'checkbox', 'radio', 'selectbox',
+        'datepicker', 'timepicker', 'inputotp', 'tagsinput', 'form', 'label',
+        'switch', 'rating', 'slider', 'card', 'separator', 'aspectratio',
+        'accordion', 'table', 'breadcrumb', 'pagination', 'tabs', 'dialog',
+        'dropdown', 'popover', 'tooltip', 'alert', 'toast',
+        'progress', 'skeleton', 'avatar', 'badge', 'icon', 'code', 'chart', 'carousel',
+        'collapsible', 'copybutton', 'sheet', 'sidebar'
       ];
 
       for (const name of componentNames) {

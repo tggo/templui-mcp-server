@@ -105,20 +105,28 @@ export const TEMPLUI_COMPONENTS: ComponentInfo[] = [
     installCommand: "templui add checkbox"
   },
   {
-    name: "checkboxcard",
-    displayName: "Checkbox Card",
-    description: "Card-style checkbox for enhanced selection experience",
-    category: "form",
-    hasJavaScript: false,
-    installCommand: "templui add checkboxcard"
-  },
-  {
     name: "code",
     displayName: "Code",
     description: "Syntax highlighted code display with copy functionality",
     category: "display",
     hasJavaScript: true,
     installCommand: "templui add code"
+  },
+  {
+    name: "collapsible",
+    displayName: "Collapsible",
+    description: "Expandable and collapsible content section",
+    category: "layout",
+    hasJavaScript: true,
+    installCommand: "templui add collapsible"
+  },
+  {
+    name: "copybutton",
+    displayName: "Copy Button",
+    description: "Quick content copying functionality",
+    category: "feedback",
+    hasJavaScript: true,
+    installCommand: "templui add copybutton"
   },
   {
     name: "datepicker",
@@ -129,12 +137,12 @@ export const TEMPLUI_COMPONENTS: ComponentInfo[] = [
     installCommand: "templui add datepicker"
   },
   {
-    name: "drawer",
-    displayName: "Drawer",
-    description: "Slide-out panel for navigation or content",
+    name: "dialog",
+    displayName: "Dialog",
+    description: "Modal window for focused interactions",
     category: "overlay",
     hasJavaScript: true,
-    installCommand: "templui add drawer"
+    installCommand: "templui add dialog"
   },
   {
     name: "dropdown",
@@ -185,14 +193,6 @@ export const TEMPLUI_COMPONENTS: ComponentInfo[] = [
     installCommand: "templui add label"
   },
   {
-    name: "modal",
-    displayName: "Modal",
-    description: "Overlay dialog for important content or actions",
-    category: "overlay",
-    hasJavaScript: true,
-    installCommand: "templui add modal"
-  },
-  {
     name: "pagination",
     displayName: "Pagination",
     description: "Navigation between multiple pages of content",
@@ -225,14 +225,6 @@ export const TEMPLUI_COMPONENTS: ComponentInfo[] = [
     installCommand: "templui add radio"
   },
   {
-    name: "radiocard",
-    displayName: "Radio Card",
-    description: "Card-style radio button for enhanced selection",
-    category: "form",
-    hasJavaScript: false,
-    installCommand: "templui add radiocard"
-  },
-  {
     name: "rating",
     displayName: "Rating",
     description: "Star rating input for feedback and reviews",
@@ -257,6 +249,22 @@ export const TEMPLUI_COMPONENTS: ComponentInfo[] = [
     installCommand: "templui add separator"
   },
   {
+    name: "sheet",
+    displayName: "Sheet",
+    description: "Sliding panel from screen edge",
+    category: "layout",
+    hasJavaScript: true,
+    installCommand: "templui add sheet"
+  },
+  {
+    name: "sidebar",
+    displayName: "Sidebar",
+    description: "Navigation panel typically on page side",
+    category: "layout",
+    hasJavaScript: true,
+    installCommand: "templui add sidebar"
+  },
+  {
     name: "skeleton",
     displayName: "Skeleton",
     description: "Loading placeholder for content areas",
@@ -271,6 +279,14 @@ export const TEMPLUI_COMPONENTS: ComponentInfo[] = [
     category: "form",
     hasJavaScript: true,
     installCommand: "templui add slider"
+  },
+  {
+    name: "switch",
+    displayName: "Switch",
+    description: "Toggle between two states",
+    category: "form",
+    hasJavaScript: true,
+    installCommand: "templui add switch"
   },
   {
     name: "table",
@@ -319,14 +335,6 @@ export const TEMPLUI_COMPONENTS: ComponentInfo[] = [
     category: "feedback",
     hasJavaScript: true,
     installCommand: "templui add toast"
-  },
-  {
-    name: "toggle",
-    displayName: "Toggle",
-    description: "Switch control for binary state changes",
-    category: "form",
-    hasJavaScript: false,
-    installCommand: "templui add toggle"
   },
   {
     name: "tooltip",
